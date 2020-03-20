@@ -1,0 +1,42 @@
+{
+    "title": "Foswiki - Part 1",
+    "description": "An introduction. Webs, Macros, Meta data, Templates and Extensions.",
+    "icon": "fa-katacoda",
+    "courses": [
+            {
+        "course_id": "preamble",
+        "title": "Preamble",
+        "description": "An introduction to this course material."
+      },
+      {
+        "course_id": "introduction",
+        "title": "Introduction",
+        "description": "First encounter, Headers, Footers, Sidebars and Text."
+      },
+      {
+        "course_id": "webs",
+        "title": "Webs",
+        "description": "What is a web. Managing webs"
+      },
+      {
+        "course_id": "macros",
+        "title": "Macros",
+        "description": "Variables, Preferences and Macros"
+      }, 
+      {
+        "course_id": "meta",
+        "title": "Meta data",
+        "description": "Structured data in Forms"
+      }, 
+      {
+        "course_id": "templates",
+        "title": "Templates",
+        "description": "Creating and using templates"
+      }, 
+      {
+        "course_id": "extensions",
+        "title": "Extensions",
+        "description": "Plugins and Contributions"
+      }
+     ]
+  }
