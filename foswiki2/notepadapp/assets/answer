@@ -1,0 +1,276 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my %step = (
+            'notepadapp' => \&notepadapp,
+            'step1' => \&step1,
+            'step2' => \&step2,
+            'step3' => \&step3,
+            'step4' => \&step4,
+            'step5' => \&step5,
+            'step6' => \&step6,
+            'step7' => \&step7,
+##          'test'  => \&test,
+          );
+
+if ( ! $ARGV[0] ) { print "Please provide the step as the first parameter: answer stepx\n"; return }
+
+foreach my $request ( @ARGV ) {
+  if ( ! $step{$request} ) { print "No answer for $request\n" }
+  else { &{$step{$request}} }
+}
+
+##########################################################################
+sub restoreRevision {
+  my ( $selections ) = @_;
+
+  my $result = '';
+  my $dir = `pwd`;
+  chdir( '/var/www/foswiki/bin' );
+  while( my ( $webTopic, $rev) = each %{$selections}) {
+    if ( -e "/var/www/foswiki/data/$webTopic,pfv/" . ($rev+1) ) {
+      $! = undef;
+      system( "./manage $webTopic -action restoreRevision -rev $rev" );
+      $result = $! ? $! : 'OK';
+    }
+    else {
+      $result = "rev $rev is current"
+    }
+    print "Restored $webTopic to rev $rev. Result: $result\n"
+  }
+  chdir( $dir );
+
+}
+
+##########################################################################
+sub refresh {
+  my ($web ) = @_;
+  
+  my $dir = `pwd`;
+  
+  my $command =
+            'cd /var/www/foswiki/bin; '
+          . './view ' . $web . '.WebHome -refresh=on;'
+          . 'cd ' . $dir;
+          
+  return `$command`;
+}
+
+##########################################################################
+sub notepadapp {
+  my ( $cmd, @command );
+  
+  @command = qw(
+      tar
+           --same-owner
+           -xvzf /tmp/NotePadApp.tgz
+           -C /var/www/foswiki/data/Applications
+  );
+  $cmd = join( " ", @command ); `$cmd`; 
+
+  refresh( 'Applications' );
+}
+
+##########################################################################
+sub step1 {
+  my ( $cmd, @command);
+  
+  @command = qw(
+      tar
+           --wildcards
+           --same-owner
+           -xvzf /tmp/SolNotePadApp.tgz
+           -C /var/www/foswiki/data/Applications
+           --exclude SolNotePadApp/NoteViewTemplate*
+           --exclude SolNotePadApp/NoteEditTemplate*
+           --exclude SolNotePadApp/NoteWebHomeViewTemplate*
+           --exclude SolNotePadApp/SeedWebHome*
+           --exclude SolNotePadApp/SeedWebPreferences*
+           --exclude SolNotePadApp/RenderDeployButton*
+           --exclude SolNotePadApp/NoteOpenViewTemplate*
+           --exclude SolNotePadApp/NoteClosedViewTemplate*
+           SolNotePadApp/* 
+    );
+    $cmd = join( " ", @command ); `$cmd`;
+   
+####  NoteForm rev=2
+####  NoteType rev=2
+####  NoteWebHome rev=2
+####  NoteTemplate rev=1
+  my %selections = (
+                    'Applications/SolNotePadApp/NoteForm' => 1,
+                    'Applications/SolNotePadApp/NoteType' => 2,
+                    'Applications/SolNotePadApp/NoteWebHome' => 2,
+                    'Applications/SolNotePadApp/NoteTemplate' => 1
+                    );
+  
+  restoreRevision( \%selections );
+    
+  @command = qw(
+      tar
+           --wildcards
+           --same-owner
+           -xvzf /tmp/SolNotePad.tgz
+           -C /var/www/foswiki/data/Sandbox
+           SolNotePad/Web* 
+    );
+    $cmd = join( " ", @command ); `$cmd`;
+  
+  refresh( 'Applications' );
+}
+
+##########################################################################
+sub step2 {
+    my ( $cmd, @command);
+    
+    ### TestSkinNoteViewTemplate rev 7
+    
+    step1() unless -d '/var/www/foswiki/data/Applications/SolNotePadApp';
+    
+    my %selections = (
+                'Applications/SolNotePadApp/NoteTemplate' => 2,
+                'Applications/SolNotePadApp/TestSkinNoteViewTemplate' => 1     
+                     );  
+      
+    restoreRevision( \%selections );
+    refresh( 'Applications' )
+}
+
+##########################################################################
+sub step3 {
+  my ( $cmd, @command);
+  
+    step1() unless -d '/var/www/foswiki/data/Applications/SolNotePadApp';
+    
+    my %selections = (
+                'Applications/SolNotePadApp/NoteTemplate' => 2,
+                'Applications/SolNotePadApp/TestSkinNoteViewTemplate' => 2     
+                     );  
+      
+    restoreRevision( \%selections );
+    refresh( 'Applications' )
+}
+
+##########################################################################
+sub step4 {
+  my ( $cmd, @command);
+  
+    step1() unless -d '/var/www/foswiki/data/Applications/SolNotePadApp';
+    
+    my %selections = (
+                'Applications/SolNotePadApp/NoteType' => 3,
+                'Applications/SolNotePadApp/NoteTemplate' => 2,
+                'Applications/SolNotePadApp/TestSkinNoteViewTemplate' => 3     
+                     );  
+      
+    restoreRevision( \%selections );
+    refresh( 'Applications' )
+}
+
+##########################################################################
+sub step5 {
+  my ( $cmd, @command);
+  
+    step1() unless -d '/var/www/foswiki/data/Applications/SolNotePadApp';
+    
+    my %selections = (
+                'Applications/SolNotePadApp/NoteType' => 6,
+                'Applications/SolNotePadApp/NoteForm' => 6,
+                'Applications/SolNotePadApp/NoteTemplate' => 2,
+                'Applications/SolNotePadApp/TestSkinNoteViewTemplate' => 3,
+                'Applications/SolNotePadApp/TestSkinNoteEditTemplate' => 3
+                     );  
+      
+    restoreRevision( \%selections );
+    refresh( 'Applications' )
+}
+
+##########################################################################
+sub step6 {
+  my ( $cmd, @command);
+  
+    step1() unless -d '/var/www/foswiki/data/Applications/SolNotePadApp';
+    
+      @command = qw(
+      tar
+           --wildcards
+           --same-owner
+           -xvzf /tmp/SolNotePadApp.tgz
+           -C /var/www/foswiki/data/Applications
+              SolNotePadApp/NoteViewTemplate*
+              SolNotePadApp/NoteEditTemplate*
+              SolNotePadApp/NoteWebHomeViewTemplate*
+              SolNotePadApp/SeedWebHome*
+              SolNotePadApp/SeedWebPreferences*
+              SolNotePadApp/RenderDeployButton*
+    );
+    $cmd = join( " ", @command ); `$cmd`;
+    
+    my %selections = (
+                'Applications/SolNotePadApp/NoteType' => 6,
+                'Applications/SolNotePadApp/NoteForm' => 6,
+                'Applications/SolNotePadApp/NoteTemplate' => 2,
+                'Applications/SolNotePadApp/NoteViewTemplate' => 3,
+                'Applications/SolNotePadApp/NoteEditTemplate' => 1,
+                'Applications/SolNotePadApp/NoteWebHomeViewTemplate' => 1,
+                'Applications/SolNotePadApp/RenderDeployButton' => 7,
+                'Applications/SolNotePadApp/SeedWebHome' => 3,
+                'Applications/SolNotePadApp/SeedWebPreferences' => 1,
+                'Applications/SolNotePadApp/TestSkinNoteViewTemplate' => 3,
+                'Applications/SolNotePadApp/TestSkinNoteEditTemplate' => 3
+                     );  
+      
+    restoreRevision( \%selections );
+    refresh( 'Applications/SolNotePadApp' )
+}
+
+##########################################################################
+sub step7 {
+  my ( $cmd, @command);
+  
+    step1() unless -d '/var/www/foswiki/data/Applications/SolNotePadApp';
+    
+      @command = qw(
+      tar
+           --wildcards
+           --same-owner
+           -xvzf /tmp/SolNotePadApp.tgz
+           -C /var/www/foswiki/data/Applications
+              SolNotePadApp/NoteOpenViewTemplate*
+              SolNotePadApp/NoteClosedTemplate*
+
+    );
+    $cmd = join( " ", @command ); `$cmd`;
+    
+    my %selections = (
+                'Applications/SolNotePadApp/NoteType' => 6,
+                'Applications/SolNotePadApp/NoteForm' => 6,
+                'Applications/SolNotePadApp/NoteTemplate' => 2,
+                'Applications/SolNotePadApp/NoteViewTemplate' => 3,
+                'Applications/SolNotePadApp/NoteEditTemplate' => 1,
+                'Applications/SolNotePadApp/NoteWebHomeViewTemplate' => 1,
+                'Applications/SolNotePadApp/RenderDeployButton' => 7,
+                'Applications/SolNotePadApp/SeedWebHome' => 3,
+                'Applications/SolNotePadApp/SeedWebPreferences' => 1,
+                'Applications/SolNotePadApp/TestSkinNoteViewTemplate' => 3,
+                'Applications/SolNotePadApp/TestSkinNoteEditTemplate' => 3
+                     );  
+      
+    restoreRevision( \%selections );
+    refresh( 'Applications/SolNotePadApp' )
+}
+##########################################################################
+sub test {
+  my @command;
+  
+    @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleSandbox.tgz
+        -C /var/www/foswiki/data/Sandbox
+        SolutionExType* SolutionExNote1*
+  
+);
+print join( ' ', @command), "\n";
+}

@@ -1,0 +1,89 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my %step = (
+            'step1' => \&step1,
+            'step2' => \&step2,
+            'step3' => \&step3,
+##          'test'  => \&test,
+          );
+
+my $refresh = 'cd /var/www/foswiki/bin; ./view Applications/SolutionExApp.WebHome -refresh=on; cd /var/www/foswiki;';
+
+if ( ! $ARGV[0] ) { print "Please provide the step as the first parameter: answer.pl stepx\n"; return }
+
+foreach my $request ( @ARGV ) {
+  if ( ! $step{$request} ) { print "No answer for $request\n" }
+  else { &{$step{$request}} }
+}
+
+sub refresh {
+  my ($web ) = @_;
+  
+  my $dir = `pwd`;
+  
+  my $command =
+            'cd /var/www/foswiki/bin; '
+          . './view ' . $web . '.WebHome -refresh=on;'
+          . 'cd ' . $dir;
+          
+  return `$command`;
+}
+
+sub step1 {
+  my ( $cmd, @command);
+  
+  @command = qw(
+      tar
+           --wildcards
+           -xvzf /tmp/WorkbenchExample.tgz
+           -C /var/www/foswiki/data/Sandbox
+           Ex00_2* Ex00_1*
+    );
+    $cmd = join( " ", @command ); `$cmd`; 
+
+  refresh( 'Sandbox' );
+}
+sub step2 {
+    my ( $cmd, @command);
+  
+  @command = qw(
+      tar
+           --wildcards
+           -xvzf /tmp/WorkbenchExample.tgz
+           -C /var/www/foswiki/data/Sandbox
+           Ex01*
+           
+    );
+  $cmd = join( " ", @command ); `$cmd`; 
+#  `tar --wildcards -xvzf /tmp/SolutionExampleTopics.tgz -C /var/www/foswiki/data/Applications SolutionExApp/SolutionExForm*`;
+  refresh( 'Sandbox' );
+}
+sub step3 {
+  my ( $cmd, @command);
+  
+  @command = qw(
+      tar
+           --wildcards      
+           -xvzf /tmp/WorkbenchExample.tgz
+           -C /var/www/foswiki/data/Sandbox
+           Ex02* 
+    );  $cmd = join( " ", @command ); `$cmd`; 
+
+  refresh( 'Sandbox' );
+}
+
+sub test {
+  my @command;
+  
+    @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleSandbox.tgz
+        -C /var/www/foswiki/data/Sandbox
+        SolutionExType* SolutionExNote1*
+  
+);
+print join( ' ', @command), "\n";
+}

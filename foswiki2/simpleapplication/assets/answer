@@ -1,0 +1,199 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my %step = (
+            'step1' => \&step1,
+            'step2' => \&step2,
+            'step3' => \&step3,
+            'step4' => \&step4,
+            'step5' => \&step5,
+            'step6' => \&step6,
+            'step7' => \&step7,
+  ##          'test'  => \&test,
+          );
+
+my $refresh = 'cd /var/www/foswiki/bin; ./view Applications/SolutionExApp.WebHome -refresh=on; cd /var/www/foswiki;';
+
+if ( ! $ARGV[0] ) { print "Please provide the step as the first parameter: answer.pl stepx\n" }
+elsif ( ! $step{$ARGV[0]} ) { print "No answer for $ARGV[0]\n" }
+else { &{$step{$ARGV[0]}} }
+
+sub refresh {
+  my ($web ) = @_;
+  
+  my $dir = `pwd`;
+  
+  my $command =
+            'cd /var/www/foswiki/bin; '
+          . './view ' . $web . '.WebHome -refresh=on;'
+          . 'cd ' . $dir;
+          
+  return `$command`;
+}
+
+sub step1 {
+  my ( $cmd, @command);
+  
+  @command = qw(
+      tar
+           -xvzf /tmp/SolutionExampleApp.tgz
+           -C /var/www/foswiki/data/Applications
+    );
+    $cmd = join( " ", @command ); `$cmd`; 
+#  `tar xvzf /tmp/SolutionExampleApp.tgz -C /var/www/foswiki/data/Applications`;
+  refresh( 'Applications/SolutionExApp' );
+}
+sub step2 {
+    my ( $cmd, @command);
+  
+  @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleTopics.tgz
+        -C /var/www/foswiki/data/Applications
+        SolutionExApp/SolutionExForm*
+    );
+  $cmd = join( " ", @command ); `$cmd`; 
+#  `tar --wildcards -xvzf /tmp/SolutionExampleTopics.tgz -C /var/www/foswiki/data/Applications SolutionExApp/SolutionExForm*`;
+  refresh( 'Applications/SolutionExApp' );
+}
+sub step3 {
+  my ( $cmd, @command);
+  
+  @command = qw(
+    tar
+        --wildcards
+        --transform='flags=r;s/V1//'
+        -xvzf /tmp/SolutionExampleTopics.tgz
+        -C /var/www/foswiki/data/Applications
+        SolutionExApp/SolutionExTypeV1*
+   );
+   $cmd = join( " ", @command ); `$cmd`; 
+   
+#  `tar --wildcards --transform='flags=r;s/V1//' -xvzf /tmp/SolutionExampleTopics.tgz -C /var/www/foswiki/data/Applications SolutionExApp/SolutionExTypeV1*`;
+
+  @command = qw(
+    tar
+         --wildcards
+         -xvzf /tmp/SolutionExampleTopics.tgz
+         -C /var/www/foswiki/data/Applications
+         SolutionExApp/SolutionExNote1*  
+   );
+   $cmd = join( " ", @command ); `$cmd`; 
+  refresh( 'Applications/SolutionExApp' );
+  
+  @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleSandbox.tgz
+        -C /var/www/foswiki/data/Sandbox
+        SolutionExType* SolutionExNote1*
+  
+   );
+   $cmd = join( " ", @command ); `$cmd`;
+  refresh( 'Sandbox' );
+}
+sub step4 {
+  my ( $cmd, @command);
+    
+  @command = qw(
+    tar
+        --wildcards
+        --transform='flags=r;s/V2//'
+        -xvzf /tmp/SolutionExampleTopics.tgz
+        -C /var/www/foswiki/data/Applications
+        SolutionExApp/SolutionExTypeV2*
+        SolutionExApp/SolutionExNote2*
+    );
+   $cmd = join( " ", @command ); `$cmd`; 
+   refresh( 'Applications/SolutionExApp' );
+
+  @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleSandbox.tgz
+        -C /var/www/foswiki/data/Sandbox
+        SolutionExNote2*
+  
+    );
+   $cmd = join( " ", @command ); `$cmd`; 
+   refresh( 'Sandbox' );
+
+}
+sub step5 {
+  my ( $cmd, @command);
+    
+  @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleTopics.tgz
+        -C /var/www/foswiki/data/Applications
+        SolutionExApp/SolutionExWebHome*
+    );
+   $cmd = join( " ", @command ); `$cmd`;
+   refresh( 'Applications/SolutionExApp' );
+  
+     @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleSandbox.tgz
+        -C /var/www/foswiki/data/Sandbox
+        --exclude='SolutionExWeb/SolutionExNote2*'
+        SolutionExWeb
+    );
+   $cmd = join( " ", @command ); `$cmd`; 
+   refresh( 'Sandbox' );
+
+}
+sub step6 {
+my ( $cmd, @command);
+    
+  @command = qw(
+    tar
+        --wildcards
+        --transform='flags=r;s/V3//'
+        -xvzf /tmp/SolutionExampleTopics.tgz
+        -C /var/www/foswiki/data/Applications
+        SolutionExApp/SolutionExTypeV3*
+        SolutionExApp/SolutionExTemplate*
+    );
+   $cmd = join( " ", @command ); `$cmd`;
+   refresh( 'Applications/SolutionExApp' );
+   
+        @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleSandbox.tgz
+        -C /var/www/foswiki/data/Sandbox
+        SolutionExWeb/SolutionExNote2*
+    );
+   $cmd = join( " ", @command ); `$cmd`; 
+   refresh( 'Sandbox' );
+}
+sub step7 {
+my ( $cmd, @command);
+    
+  @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleTopics.tgz
+        -C /var/www/foswiki/data/Applications
+        SolutionExApp/SolutionExType*
+    );
+   $cmd = join( " ", @command ); `$cmd`;
+   refresh( 'Applications/SolutionExApp' );
+}
+sub test {
+  my @command;
+  
+    @command = qw(
+    tar
+        --wildcards
+        -xvzf /tmp/SolutionExampleSandbox.tgz
+        -C /var/www/foswiki/data/Sandbox
+        SolutionExType* SolutionExNote1*
+  
+);
+print join( ' ', @command), "\n";
+}

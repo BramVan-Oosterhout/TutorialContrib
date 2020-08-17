@@ -1,0 +1,28 @@
+{
+    "title": "Foswiki - Part 2",
+    "description": "Applications. How to build them with the Wiki workbench",
+    "icon": "fa-katacoda",
+    "courses": [
+            {
+        "course_id": "preamble",
+        "title": "Preamble",
+        "description": "An introduction to this course material."
+      },{
+        "course_id": "simpleapplication",
+        "title": "A simple application",
+        "description": "An application to record notes."
+      },{
+        "course_id": "workbenchone",
+        "title": "Some work bench internals",
+        "description": "RenderSimpleTopicCreator."
+      },{
+        "course_id": "workbenchtwo",
+        "title": "More work bench internals",
+        "description": "RenderTopicInstaller, RenderWikiTopicView and RenderTopicsOfType."
+      },{
+        "course_id": "notepadapp",
+        "title": "Note pad app",
+        "description": "Creating a note pad application. Define Content, Templates and Styles"
+      }
+     ]
+  }

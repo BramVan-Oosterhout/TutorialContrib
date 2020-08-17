@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $webTopic = 'Applications/SolNotePadApp/TestSkinNoteViewTemplate';
+for ( my $rev = 1; $rev < 10; $rev++ ){
+   my $next = $rev + 1;
+   print "Checking: $webTopic:$rev ";
+   print "OK"
+       if ( -e "/home/bram/devfoswiki/core/data/$webTopic,pfv/" . ($rev + 1) );
+   print "\n";
+}
