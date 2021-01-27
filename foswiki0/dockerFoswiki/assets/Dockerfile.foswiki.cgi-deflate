@@ -1,0 +1,10 @@
+FROM kcbase
+
+WORKDIR /usr/local/apache2/conf
+
+# Configure mod_deflate
+COPY foswiki.cgi-deflate.conf extra/.
+RUN sed -i -e 's/^#\(LoadModule .*mod_deflate.so\)/\1/' httpd.conf   
+RUN sed -i '/# Supplemental configuration/a Include conf/extra/foswiki.cgi-deflate.conf' /usr/local/apache2/conf/httpd.conf
+
+

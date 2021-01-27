@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+
+my @timer = (
+          '/usr/bin/time',
+          '--quiet',
+          '-f "%e"'
+);
+
+my @command = ( 
+            'wget',
+            '-p',
+            '-q',
+            '-e robots=off',
+            '--no-cache',
+            '--no-check-certificate',
+            '--delete-after',
+            $ARGV[0]
+);
+
+my @timings;
+my $samples = 5;
+
+my $avg = 0;
+my $std;
+my $i;
+
+for ( $i = 0; $i < $samples; $i++ ) {
+  $timings[ $i ] = timing( );
+  
+  print "First time: $timings[$i]ms " if $i == 0;
+  print "." if $i >0;
+}
+print "\n";
+
+for ( $i = 1; $i < $samples; $i++ ) {
+  $avg += $timings[$i];
+}
+$avg = $avg/($samples-1);
+$std = standardDev( $avg );
+
+printf( "Next %d: Avg %dms Std %dms\n", $samples-1, $avg, $std );
+
+sub standardDev {
+  my $avg2 = $_[0]**2;
+
+  my $sumSq = 0;
+  for ( my $i = 1; $i < $#timings; $i++ ) {
+     $sumSq += abs($avg2-$timings[$i]**2);
+  }
+  my $std = sqrt( $sumSq / ( $#timings  + 1 ) );
+  return $std;
+}
+
+sub timing {
+
+  my $cmd = join( ' ', @timer, @command );
+#  print "Timing with: $cmd\n";
+  my $timing = 1000 * qx( $cmd, 2>&1 1>/dev/null );
+  sleep 5;
+  return $timing;
+}

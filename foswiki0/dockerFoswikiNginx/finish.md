@@ -1,0 +1,1 @@
+Your Katacoda environment has been removed!

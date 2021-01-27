@@ -1,0 +1,92 @@
+{
+  "title": "Docker Kc-Alpine-Foswiki ",
+  "description": "Building a Docker file to run foswiki under Apache in the Katacoda environment",
+  "difficulty": "beginner",
+  "time": "20 minutes",
+  "details": {
+   "assets": {
+      "host01": [
+                  {"file": "Dockerfile.foswiki.base", "target": "/root"},
+                  {"file": "Dockerfile.foswiki.cgi", "target": "/root"},
+                  {"file": "Dockerfile.foswiki.cgi-gz", "target": "/root"},
+                  {"file": "Dockerfile.foswiki.pageopt", "target": "/root"},
+                  {"file": "Dockerfile.foswiki.cgi-deflate", "target": "/root"},
+                  {"file": "Dockerfile.foswiki.fcgi", "target": "/root"},
+                  {"file": "foswiki.cgi.conf", "target": "/root"}, 
+                  {"file": "foswiki.cgi-gz.conf", "target": "/root"}, 
+                  {"file": "foswiki.cgi-deflate.conf", "target": "/root"}, 
+                  {"file": "foswiki.fcgi.conf", "target": "/root"}, 
+                  {"file": "docker-entrypoint.sh", "target": "/root" }, 
+                  {"file": "KcBvO.crt", "target": "/root"},
+                  {"file": "KcBvO.key", "target": "/root"},
+                  {"file": "start", "target": "/root", "chmod": "+x" },
+                  {"file": "timings", "target": "/root", "chmod": "+x" }
+              ]
+    },
+    "steps": [
+   {
+      "title" : "Create an environment",
+      "text" : "step01.md",
+      "answer" : "step01-answer.md"
+   },
+   {
+      "text" : "step02.md",
+      "title" : "Install and configure Foswiki"
+   },
+   {
+      "title" : "Configure apache for ssl",
+      "text" : "step03.md"
+   },
+   {
+      "text" : "step04.md",
+      "title" : "Configuring for Foswiki CGI"
+   },
+   {
+      "title" : "Measuring performance",
+      "text" : "step05.md"
+   },
+   {
+      "answer" : "step06-answer.md",
+      "title" : "Using the pre zipped css and js",
+      "text" : "step06.md"
+   },
+   {
+      "answer" : "step07-answer.md",
+      "text" : "step07.md",
+      "title" : "Using the PageOptimizerPlugin"
+   },
+   {
+      "text" : "step08.md",
+      "title" : "Compressing the apache output",
+      "answer" : "step08-answer.md"
+   },
+   {
+      "answer" : "step09-answer.md",
+      "title" : "Performance: FastCGI",
+      "text" : "step09.md"
+   },
+   {
+      "text" : "step10.md",
+      "title" : "Summary of the performance"
+   }
+]
+,
+    "intro": {
+      "text": "intro.md",
+      "credits": "Bram van Oosterhout for the scenario"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "environment": {
+    "uilayout": "editor-terminal",
+    "uimessage1": "\u001b[32mYour Interactive  Bash Ubuntu Terminal.\r\nRun your own commands here\u001b[m\r\n",
+    "showdashboard": "1",
+    "dashboards": [ {"name": "Foswiki", "port": "80", "host": "host01"} ]
+
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

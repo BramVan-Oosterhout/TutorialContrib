@@ -1,0 +1,22 @@
+{
+    "title": "Foswiki - Installation",
+    "description": "Installing foswiki with apache or docker.",
+    "icon": "fa-katacoda",
+    "courses": [
+      {
+        "course_id": "testFoswiki",
+        "title": "Apache and Foswiki",
+        "description": "Installing and configuring Foswiki under Apache."
+      },
+      {
+        "course_id": "dockerFoswiki",
+        "title": "Docker, Apache and Foswiki",
+        "description": "Creating a Docker image for Katacoda/Apache/Foswiki"
+      },
+      {
+        "course_id": "dockerFoswikiNginx",
+        "title": "Docker, Nginx and Foswiki",
+        "description": "Creating a Docker image for Katacoda/Nginx/Foswiki"
+      }
+     ]
+  }

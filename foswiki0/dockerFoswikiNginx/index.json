@@ -1,0 +1,33 @@
+{
+  "title": "Docker Foswiki Install",
+  "description": "Installation and configuration",
+  "difficulty": "beginner",
+  "time": "20 minutes",
+  "details": {
+
+    "steps": [{
+      "title": "Step 1 - Install Foswiki for workbench",
+      "text": "step1.md"
+    },{
+      "title": "Step 2 - Configure adjustments",
+      "text": "step2.md"
+    }],
+    "intro": {
+      "text": "intro.md",
+      "credits": "Tim Legge for the image. Bram van Oosterhout for the scenario"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "environment": {
+    "uilayout": "terminal",
+    "uimessage1": "\u001b[32mYour Interactive  Bash Ubuntu Terminal.\r\nRun your own commands here\u001b[m\r\n",
+    "showdashboard": "1",
+    "dashboards": [ {"name": "Foswiki", "port": "80", "host": "host01"} ]
+
+  },
+  "backend": {
+    "imageid": "docker"
+  }
+}

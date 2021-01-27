@@ -1,0 +1,46 @@
+FROM httpd:2.4-alpine
+ENV PERL_MM_USE_DEFAULT 1
+
+WORKDIR /tmp
+
+RUN apk update && \
+    apk upgrade && \
+    apk add perl bash \
+            perl-cgi perl-cgi-session \
+            perl-crypt-passwdmd5 perl-error \
+            perl-file-copy-recursive perl-json \
+            perl-html-tree perl-uri perl-algorithm-diff  \
+            perl-locale-maketext-lexicon perl-locale-msgfmt perl-locale-codes \
+            perl-lwp-protocol-https && \
+    rm -rf /var/cache/apk/* && \
+    mkdir /var/www && \
+    mkdir /var/log/httpd
+    
+WORKDIR /var/www
+
+# Download and extract Foswiki
+RUN wget -O Foswiki-2.1.6.tgz https://github.com/foswiki/distro/releases/download/FoswikiRelease02x01x06/Foswiki-2.1.6.tgz && \
+    tar -zxvf Foswiki-2.1.6.tgz && \
+    mv Foswiki-2.1.6 foswiki && \
+    rm Foswiki-2.1.6.tgz
+
+WORKDIR /var/www/foswiki
+
+#configure Foswiki
+RUN tools/configure -save -noprompt && \
+    tools/configure -save -set {DefaultUrlHost}='http://[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com' \
+                          -set {Password}='password' \
+                          -set {Sessions}{UseIPMatching}='0' && \
+    touch data/.htpasswd && \
+    chown -R daemon:daemon *
+
+WORKDIR /usr/local/apache2/conf
+
+# Configure the httpd server for ssl
+COPY KcBvO.crt server.crt
+COPY KcBvO.key server.key
+RUN sed -i -e 's/^#\(Include .*httpd-ssl.conf\)/\1/' \
+           -e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' \
+           -e 's/^#\(LoadModule .*mod_socache_shmcb.so\)/\1/' httpd.conf && \
+    sed -ri -e 's!^(\s*CustomLog)\s+\S+!\1 /var/log/httpd/access.log!g' \
+            -e 's!^(\s*ErrorLog)\s+\S+!\1 /var/log/httpd/error.log!g' "httpd.conf" 

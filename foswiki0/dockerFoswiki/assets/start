@@ -1,0 +1,42 @@
+#!/usr/bin/perl
+
+unless ( imageExists( 'kcbase' ) ) {
+   print " ... building - docker build -t kcbase -f Dockerfile.foswiki.base .\n";
+   `docker build -t kcbase -f Dockerfile.foswiki.base .`
+}
+
+startImage( $ARGV[0] );
+
+sub startImage {
+   my $buildCmd = sprintf( "docker build -t foswiki-%s -f Dockerfile.foswiki.%s .", $_[0], $_[0] );
+   print " ... building - $buildCmd\n";
+   `$buildCmd`;
+
+       
+   `docker stop foswiki` if containerRunning( "foswiki" );
+    
+    print " ... running - docker run -d --rm --name foswiki -p 443:443 foswiki-$_[0]\n";   
+   `docker run -d --rm --name foswiki -p 443:443 foswiki-$_[0]`;
+
+   sleep 2;
+   print_timing();
+}
+
+sub print_timing{
+   my $command = 'wget -pq --no-check-certificate --delete-after https://localhost/foswiki';
+   my $timing = '/usr/bin/time --quiet -f "%e" ';
+   my $cmd = $timing . $command;
+#   print qq( ... Timing - $cmd\n );
+   my $time0 = qx($cmd 2>&1 1>/dev/null);
+   my $time1 = qx($cmd 2>&1 1>/dev/null);
+   my $time2 = qx($cmd 2>&1 1>/dev/null);
+   printf( " ... Response %d (%d, %d) ms\n", 1000 * $time0, 1000*$time1, 1000*$time2 ) if $time0 && $time0 > 0; 
+}
+
+sub imageExists{
+   `docker image ls | grep --perl-regexp "\\b$_[0]\\b"`; 
+}
+
+sub containerRunning{
+   `docker container ls | grep --perl-regexp "\\b$_[0]\\b"`;
+}
