@@ -25,9 +25,9 @@
     },
     "steps": [
    {
-      "title" : "Create an environment",
+      "answer" : "step01-answer.md",
       "text" : "step01.md",
-      "answer" : "step01-answer.md"
+      "title" : "Create an environment"
    },
    {
       "text" : "step02.md",
@@ -46,14 +46,14 @@
       "text" : "step05.md"
    },
    {
-      "answer" : "step06-answer.md",
       "title" : "Using the pre zipped css and js",
-      "text" : "step06.md"
+      "text" : "step06.md",
+      "answer" : "step06-answer.md"
    },
    {
       "answer" : "step07-answer.md",
-      "text" : "step07.md",
-      "title" : "Using the PageOptimizerPlugin"
+      "title" : "Using the PageOptimizerPlugin",
+      "text" : "step07.md"
    },
    {
       "text" : "step08.md",
@@ -61,13 +61,13 @@
       "answer" : "step08-answer.md"
    },
    {
-      "answer" : "step09-answer.md",
+      "text" : "step09.md",
       "title" : "Performance: FastCGI",
-      "text" : "step09.md"
+      "answer" : "step09-answer.md"
    },
    {
-      "text" : "step10.md",
-      "title" : "Summary of the performance"
+      "title" : "Summary of the performance",
+      "text" : "step10.md"
    }
 ]
 ,
@@ -83,7 +83,7 @@
     "uilayout": "editor-terminal",
     "uimessage1": "\u001b[32mYour Interactive  Bash Ubuntu Terminal.\r\nRun your own commands here\u001b[m\r\n",
     "showdashboard": "1",
-    "dashboards": [ {"name": "Foswiki", "port": "80", "host": "host01"} ]
+    "dashboards": [ {"name": "Foswiki", "href": "https://\u0091[HOST_SUBDOMAIN]]-80-\u0091[KATACODA_HOST]].environments.katacoda.com/foswiki"} ]
 
   },
   "backend": {

@@ -23,7 +23,7 @@ sub startImage {
 }
 
 sub print_timing{
-   my $command = 'wget -pq --no-check-certificate --delete-after https://localhost/foswiki';
+   my $command = 'wget -pq --header="accept-encoding: gzip" --no-check-certificate --delete-after https://localhost/foswiki';
    my $timing = '/usr/bin/time --quiet -f "%e" ';
    my $cmd = $timing . $command;
 #   print qq( ... Timing - $cmd\n );

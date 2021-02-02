@@ -2,7 +2,7 @@
 
  In this step we introduce the measurement and set the base line.
 
- There are tools on the web that will measure the performance of any web site. You can search: "\_measuring web site response performance\_" for a list. In this Scenario we will use the [Pingdom](https://tools.pingdom.com/#!/) tool.
+ There are tools on the web that will measure the performance of any web site. You can search: _measuring web site response performance_ for a list. In this Scenario we will use the [Pingdom](../../..) tool.
 
  However, for a first impression, you can use a simple command line script: <br />
 
@@ -22,5 +22,5 @@
 |-|
 |0.56|0.58|0.62|0.59|`localhost`|
 |2.30|2.25|2.26|2.27|`katacoda host`|
-|1.20|1.01|1.01|1.07|[Pingdom](https://tools.pingdom.com/#!/)|
+|1.20|1.01|1.01|1.07|[Pingdom](../../..)|
 

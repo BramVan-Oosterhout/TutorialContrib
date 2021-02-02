@@ -1,6 +1,6 @@
  The standard Apache Foswiki CGI configuration will start the `perl` interpreter for each page request received.This introduces some overhead. The overhead can be avoided by running a daemon that provides Foswiki services using the `FastCGI` protocol.
 
- Instead of creating a new process for each request, `FastCGI` uses persistent processes to handle a series of requests. See: [Wikipedia](https://en.wikipedia.org/wiki/FastCGI).
+ Instead of creating a new process for each request, `FastCGI` uses persistent processes to handle a series of requests. See: [FastCGI (Wikipedia)](https://en.wikipedia.org/wiki/FastCGI).
 
  Apache `mod_fcgid` provides this service It starts `foswiki.fcgi` as a daemon when the first request is received. Subsequent requests are handled by the already running daemon.
 
@@ -8,15 +8,11 @@
 
 ### Foswiki `FastCGIEngineContrib`	
 
- Foswiki supports `FastCGI` through the `<a href="https://foswiki.org/Extensions/FastCGIEngineContrib">FastCGIEngineContrib</a>`. `FastCGIEngineContrib` is installed with the Foswiki core installation. The executable `foswiki.fcgi` is located in the `bin` directory: `docker exec -it foswiki /bin/bash -c 'ls /var/www/foswiki'`{{execute}}
+ Foswiki supports `FastCGI` through the [`FastCGIEngineContrib`](https://foswiki.org/Extensions/FastCGIEngineContrib). `FastCGIEngineContrib` is installed with the Foswiki core installation. The executable `foswiki.fcgi` is located in the `bin` directory: `docker exec -it foswiki /bin/bash -c 'ls /var/www/foswiki/bin'`{{execute}}
 
-### libfcgi-perl and apache mod\_fcgi	
+### libfcgi-perl and apache mod\_fcgid	
 
- These modules are installed in `line 3 - 5` in `Dockerfile.foswiki.fcgi`{{open}}
-
-### Apache mod\_fcgid	
-
-`mod_fcgid` is dependent on `perl-fcgi`
+ These modules are installed in `line 3 - 5` in `Dockerfile.foswiki.fcgi`{{open}} `mod_fcgid` is dependent on `perl-fcgi`
 
 ### Apache - Foswiki configuration	
 
@@ -42,5 +38,5 @@
 |-|
 |0.54|0.15|0.15|0.59|`localhost`|
 |2.05|1.91|1.95|2.27|`katacoda host`|
-|0.68|0.58|0.75|1.07|[Pingdom](https://tools.pingdom.com/#!/)|
+|0.68|0.58|0.75|1.07|[Pingdom](../../..)|
 

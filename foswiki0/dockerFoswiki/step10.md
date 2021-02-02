@@ -1,6 +1,6 @@
  The various configurations demonstrated here are summarized on this page. Response times shown with start are measured using `/usr/bin/time` on `wget localhost/foswiki` on the Katacoda host platform.
 
- You can run Foswiki with https://[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/foswiki. You can get download time statistics with `./timings https://[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/foswiki`{{execute}}.
+ You can run Foswiki with https://[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/foswiki. You can get download time statistics for `localhost` with `./timings https://[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/foswiki/`{{execute}}.
 
  Copy the script to your own platform from `timings`{{open}}. The times on my home server are measured with this script. They are presented as: Timings: `first time`, `average over next 4 (standard deviation)`.
 

@@ -25,13 +25,13 @@
     * `wget --header="accept-encoding: gzip" --no-check-certificate --delete-after https://[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/foswiki/Main/WebHome`{{execute}}
     * Hey, this request did not receive a compressed page! Why would that be?
 
- The performance results for the `deflate` configuration are in seconds. Baseline figures are in the `CGI` collumn. The performance scripts are repeated in the Solutions.
+ The performance results for the `deflate` configuration are in seconds. Baseline figures are in the `CGI` column. The performance scripts are repeated in the Solutions.
 
 |First|Second|Third|CGI|Url|
 |-|
 |0.59|0.63|0.57|0.59|`localhost`|
 |2.27|2.33|2.35|2.27|`katacoda host`|
-|1.12|1.12|0.99|1.07|[Pingdom](https://tools.pingdom.com/#!/)|
+|1.12|1.12|0.99|1.07|[Pingdom](../../..)|
 
  As before, the differences appear marginal. Why would that be?
 
